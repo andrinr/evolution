@@ -1,4 +1,6 @@
 {
+  "skipLibCheck": true,
+  "importsNotUsedAsValues" : true,
   "extends": "@tsconfig/svelte/tsconfig.json",
 
   "include": ["src/**/*"],
