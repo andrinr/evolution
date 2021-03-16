@@ -1,12 +1,33 @@
-import  {Node} from './node';
+import  {Neuron} from './node';
 
-export class Layer{
-    nodes : Node[];
+interface Layer {
+    nodes : Neuron[];
+    propagate(): void;
+}
+
+export class LinearLayer implements Layer {
+    nodes : Neuron[];
 
     constructor(size: number){
         this.nodes = [];
         for (var i = 0; i < size; i++){
-            this.nodes.push(new Node())
+            this.nodes.push(new Neuron());
         }
+    }
+
+    propagate(){
+        for (let node of this.nodes){
+            node.propagate();
+        }
+    }
+
+    mutate(factor : number){
+        for (let node of this.nodes){
+            node.mutate(factor);
+        }
+    }
+
+    copy(){
+        
     }
 }

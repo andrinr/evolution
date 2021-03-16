@@ -1,4 +1,4 @@
-export class Node{
+export class Neuron{
     edges : Edge[];
     value : number;
 
@@ -8,13 +8,19 @@ export class Node{
 
     propagate(){
         this.value = 0;
-        for (let i = 0; i < this.edges.length; i++){
-            this.value += this.edges[i].node.value * this.edges[i].weight;
+        for (let edge of this.edges){
+            this.value += edge.neuron.value * edge.weight;
+        }
+    }
+
+    mutate(factor : number){
+        for (let edge of this.edges){
+            edge.weight += Math.random() * factor;
         }
     }
 }
 
 interface Edge{
-    node : Node,
+    neuron : Neuron,
     weight : number
 }
