@@ -13,6 +13,9 @@
     SelectItem,
   } from "carbon-components-svelte";
   import "carbon-components-svelte/css/g90";
+import { Brain } from "./logic/Brain";
+
+  const brain = new Brain([5,6,7,2,4]);
 </script>
 
 <main>

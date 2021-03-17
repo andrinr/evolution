@@ -1,4 +1,6 @@
 import { Neuron } from './Neuron';
+//import {matrix, max} from 'mathjs';
+import * as math from 'mathjs';
 
 type neuronLambda = (neuron: Neuron) => void;
 
@@ -9,11 +11,18 @@ export class Brain{
     protected neurons : Neuron[][];
     protected layerSizes : number[];
 
+    protected weights : math.matrix<number>;
+    protected synapses : math.matrix<Neuron>;
+
     /**
      * Initialize a new brain
      * @param layerSizes layers sizes given as array
      */
     constructor(layerSizes : number[]){
+
+        const n = math.max(layerSizes);
+        
+        this.weights = math.zeros(layerSizes.length, n, n);
 
         this.neurons = [];
         this.layerSizes = layerSizes;

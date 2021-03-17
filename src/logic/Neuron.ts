@@ -3,7 +3,7 @@ export class Neuron{
     value : number;
 
     constructor(){
-
+        this.edges = [];
     }
 
     propagate(){
