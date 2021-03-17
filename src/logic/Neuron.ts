@@ -13,6 +13,10 @@ export class Neuron{
         }
     }
 
+    connect(neuron : Neuron, weight : number){
+        this.edges.push({neuron: neuron, weight: weight})
+    }
+
     mutate(factor : number){
         for (let edge of this.edges){
             edge.weight += Math.random() * factor;

@@ -12,7 +12,7 @@
     Select,
     SelectItem,
   } from "carbon-components-svelte";
-  import "carbon-components-svelte/css/g10";
+  import "carbon-components-svelte/css/g90";
 </script>
 
 <main>
