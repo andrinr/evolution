@@ -1,70 +1,38 @@
-import { Neuron } from './Neuron';
-//import {matrix, max} from 'mathjs';
 import * as math from 'mathjs';
-
-type neuronLambda = (neuron: Neuron) => void;
 
 /**
  * 
  */
 export class Brain{
-    protected neurons : Neuron[][];
     protected layerSizes : number[];
 
     protected weights : math.matrix<number>;
-    protected synapses : math.matrix<Neuron>;
+    protected values : math.matrix<number>;
 
     /**
-     * Initialize a new brain
-     * @param layerSizes layers sizes given as array
+     * Initialize a new brain, assuming fully connected, only 1D Layers
      */
-    constructor(layerSizes : number[]){
+    constructor(layerSizes : number[], weights? : math.matrix<number>){
 
-        const n = math.max(layerSizes);
+        const n = layerSizes.length;
+        const m = math.max(layerSizes);
         
-        this.weights = math.zeros(layerSizes.length, n, n);
+        this.weights = weights ? weights.clone() : math.random([n, m, m]);
 
-        this.neurons = [];
         this.layerSizes = layerSizes;
 
-        // Initialize neurons
-        for (const layerSize of this.layerSizes){
-            const subararray = [];
-            for (let i = 0; i < layerSize; i++){
-                subararray.push(new Neuron());
-            }
-            this.neurons.push(subararray);
-        }
-
-        // Make layers fully connected
-        for (let i = 0; i < this.neurons.length - 1; i++){
-            for (let j = 0; j < this.neurons[i].length; j++){
-                for (let k = 0; k < this.neurons[i+1].length; k++){
-                    this.neurons[i][j].connect(this.neurons[i][k], Math.random());
-                }
-            }
-        }
     }
 
-    /**
-     * Propagate on all neurons
-     */
+    input(data : math.matrix<number>){
+        return math.subset(this.values, math.index([-1],[0,this.layerSizes[-1]]));
+    }
+ 
     propagate(){
-        const propagateLambda : neuronLambda = (neuron : Neuron) => {
-            neuron.propagate()
-        }
-        this.onAllNeurons(propagateLambda);
+
     }
 
-    /**
-     * Mutates all neurons
-     * @param strength mutation strength
-     */
     mutate(strength : number){
-        const mutateLambda : neuronLambda = (neuron : Neuron) => {
-            neuron.mutate(strength);
-        }
-        this.onAllNeurons(mutateLambda);
+        math.add(this.weights, math.random(strength, this.weights.size()));
     }
 
     clone(){
@@ -72,17 +40,5 @@ export class Brain{
 
         // TODO: copy all weights
 
-    }
-
-    /**
-     * Executes lambda on all neurons
-     * @param lambda 
-     */
-    onAllNeurons(lambda : neuronLambda){
-        for (const subararray of this.neurons){
-            for (const neuron of subararray){
-                lambda(neuron);
-            }
-        }
     }
 }
