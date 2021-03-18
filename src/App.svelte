@@ -1,5 +1,7 @@
 <script lang="ts">
-	 import {
+	import * as math from 'mathjs';
+
+	import {
     Content,
     Breadcrumb,
     BreadcrumbItem,
@@ -16,6 +18,7 @@
 import { Brain } from "./logic/Brain";
 
   const brain = new Brain([5,6,7,2,4]);
+  brain.input(math.random([5]))
 </script>
 
 <main>

@@ -17,14 +17,18 @@ export class Brain{
         const n = layerSizes.length;
         const m = math.max(layerSizes);
         
-        this.weights = weights ? weights.clone() : math.random([n, m, m]);
+        this.weights = weights ? weights : math.random([n, m, m]);
+        this.values = math.zeros([n,m]);
 
         this.layerSizes = layerSizes;
 
     }
 
     input(data : math.matrix<number>){
-        return math.subset(this.values, math.index([-1],[0,this.layerSizes[-1]]));
+        const inputIndex = math.index(0,[0,math.size(data)[0]-1])
+        this.values.subset(inputIndex, data);
+        this.propagate();
+        return math.subset(this.values, math.index(-1,[0,this.layerSizes[-1]]));
     }
  
     propagate(){
@@ -32,11 +36,11 @@ export class Brain{
     }
 
     mutate(strength : number){
-        math.add(this.weights, math.random(strength, this.weights.size()));
+        math.add(this.weights, math.random(strength, math.size(this.weights)));
     }
 
     clone(){
-        const brainClone = new Brain([...this.layerSizes]);
+        const brainClone = new Brain([...this.layerSizes], this.weights.clone());
 
         // TODO: copy all weights
 
