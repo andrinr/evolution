@@ -41,16 +41,17 @@ export class Brain{
     }
 
     process(input : math.matrix<number>){
-        const index = math.index(0,[0,math.size(input)[0]]);
-        console.log(math.size(input)[0]-1);
+        const index = math.index(0,math.range(0,math.size(input)[0]));
+        
         console.log(math.subset(this.values, index));
+        // TODO: fix dimension error
         math.subset(this.values, index, input);
         /*this.propagate();
         return math.subset(this.values, math.index(-1,[0,this.layerSizes[-1]]));*/
     }
- 
+  
     propagate(){
-        
+        // TODO: implement propagation
     }
 
     mutate(strength : number){
