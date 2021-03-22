@@ -16,9 +16,15 @@
 	} from "carbon-components-svelte";
 	import "carbon-components-svelte/css/g90";
 	import { Brain } from "./logic/Brain";
+import { Layer } from "./logic/Layer";
 
-	const brain = new Brain({layerSizes: [5, 6, 7, 2, 4]});
-	brain.process(math.random([5]));
+	const brain = new Brain({layers : [
+		new Layer(5),
+		new Layer(10),
+		new Layer(10),
+		new Layer(3)
+	]});
+	console.log(brain.process(math.random([5])));
 </script>
 
 <main>
