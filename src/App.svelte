@@ -15,19 +15,12 @@
 		SelectItem,
 	} from "carbon-components-svelte";
 	import "carbon-components-svelte/css/g90";
-	import { Brain } from "./logic/Brain";
-import { Layer } from "./logic/Layer";
 
-	const brain = new Brain({layers : [
-		new Layer({breadth: 5}),
-		new Layer({breadth: 10}),
-		new Layer({breadth: 10}),
-		new Layer({breadth: 3})
-	]});
-	console.log(brain.process(math.random([5])));
+	import Evolution from './Evolution.svelte'
 </script>
 
 <main>
+	<Evolution></Evolution>
 	<Grid>
 		<Row>
 			<Column lg={16}>

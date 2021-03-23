@@ -45,7 +45,7 @@ export class Layer
     }
 
     public clone() : Layer {
-        return new Layer({weights: this.weights.clone()});
+        return new Layer({weights: math.clone(this.weights)});
     }
 
     public mutate(strength : number){
