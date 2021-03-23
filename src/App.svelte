@@ -19,10 +19,10 @@
 import { Layer } from "./logic/Layer";
 
 	const brain = new Brain({layers : [
-		new Layer(5),
-		new Layer(10),
-		new Layer(10),
-		new Layer(3)
+		new Layer({breadth: 5}),
+		new Layer({breadth: 10}),
+		new Layer({breadth: 10}),
+		new Layer({breadth: 3})
 	]});
 	console.log(brain.process(math.random([5])));
 </script>
