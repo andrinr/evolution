@@ -5,7 +5,7 @@ import { Environment } from "./Environment";
 
 interface EvolutionParams
 { 
-    instances : number, 
+    nInstances : number, 
     survivalSteepness : number,
     timePerEpoch : number,
     deltaTime : number
@@ -19,8 +19,10 @@ export class Evolution
     
     constructor(params : EvolutionParams){
         this.params = params;
+
+        this.animals = [];
         
-        for (let i = 0; i < params.instances; ++i){
+        for (let i = 0; i < params.nInstances; ++i){
             const brain = new Brain({
                 layers: [
                     new Layer({ breadth: 5 }),
@@ -34,7 +36,6 @@ export class Evolution
 
         this.environment = new Environment();
     }
-
 
     epoch(){
         const step = this.params.timePerEpoch / this.params.deltaTime;
