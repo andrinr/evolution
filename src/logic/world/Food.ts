@@ -2,7 +2,8 @@ import { Animal } from "../animal/Animal"
 import * as math from 'mathjs';
 import type { AnimationInstance } from "../AnimationInstance";
 
-export class Food implements AnimationInstance{
+export class Food implements AnimationInstance
+{
     energy: number
     position: math.matrix<number>;
     velocity : math.matrix<number>;
@@ -16,5 +17,9 @@ export class Food implements AnimationInstance{
     update(dt : number) : Food{
         this.position = math.add(this.position, math.multiply(this.velocity, dt));
         return this;
+    }
+
+    draw(){
+
     }
 }

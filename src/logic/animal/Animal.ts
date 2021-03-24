@@ -1,7 +1,7 @@
 import * as math from 'mathjs';
 
 import type { AnimationInstance } from "../AnimationInstance";
-import type { ObjectInstance } from '../ObjectInstance';
+import { ObjectInstance } from '../ObjectInstance';
 import type { Food } from "../world/Food";
 import type { Brain } from "./Brain";
 
@@ -10,12 +10,14 @@ interface AnimalParams{
 
 }
 
-export class Animal implements AnimationInstance, ObjectInstance{
+export class Animal extends ObjectInstance implements AnimationInstance{
     brain : Brain;
     energy : number;
     position : math.matrix<number>;
+    velocity : math.matrix<number>;
 
     constructor(animalParams : AnimalParams){
+        super();
         this.brain = animalParams.brain;
         this.energy = 0.5;
         this.position = math.random([2]);
@@ -26,6 +28,10 @@ export class Animal implements AnimationInstance, ObjectInstance{
     }
 
     update(dt : number){
+        this.updatePosition(dt);
+    }
+
+    draw(){
         
     }
 
