@@ -1,11 +1,10 @@
-import type { Updatable } from "../AnimationInstance";
 import { Food } from "./Food";
 
 interface EnvironmentParams {
     nInstances : number,
 }
 
-export class Environment implements Updatable
+export class Environment
 {
     params : EnvironmentParams;
     foods : Food[];

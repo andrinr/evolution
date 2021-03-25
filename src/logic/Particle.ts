@@ -1,17 +1,18 @@
 import * as math from 'mathjs';
+import type { Pt } from 'pts';
 
 export abstract class Particle
 {
-    position : math.matrix<number>;
-    velocity : math.matrix<number>;
+    position : Pt;
+    velocity : Pt;
 
     constructor(){
-
+        
     }
     
     protected updatePosition(dt : number)
     {
-        this.position = math.add(this.position, math.multiply(this.velocity, dt));
+        this.position.add(this.velocity.$multiply(dt));
     }
 
     update(dt : number){

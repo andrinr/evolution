@@ -1,7 +1,8 @@
 <script lang="ts">
     import { Evolution } from "./logic/world/Evolution";
-    import { EvolutionRenderer } from "./logic/world/EvolutionRenderer";
     import { onMount } from "svelte";
+
+    import {CanvasSpace, Circle, CanvasForm} from "pts"
 
     const evolution = new Evolution({
         nInstances: 100,
@@ -10,22 +11,33 @@
         deltaTime: 0.01,
     });
 
-    onMount(async () => {
-        new EvolutionRenderer({ evolution: evolution, canvasId: "canvas" });
-        update();
-    });
+    let space : CanvasSpace = null;
+    let form : CanvasForm = null;
 
-    const update = () => {
-        evolution.update();
-        requestAnimationFrame(update);
-    }
+    onMount(async () => {
+        space = new CanvasSpace("#canvas");
+        space.setup({ bgcolor: "#123" });
+        form = space.getForm();
+
+        space.add( time => {
+            const circle = Circle.fromCenter(space.pointer, 10);
+            form.fill("#321").circle(circle);
+            evolution.update();
+            evolution.draw(form, space);
+        });
+
+        space.play();
+    });
 </script>
 
-<canvas id="canvas" />
+<canvas id="canvas"/>
 
 <style>
     :global(#canvas){
-        width: 800px;
-        height: 800px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
     }
 </style>

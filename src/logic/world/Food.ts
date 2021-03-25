@@ -1,5 +1,6 @@
 import { Particle } from '../Particle';
 import * as math from 'mathjs';
+import { Pt } from 'pts';
 
 export class Food extends Particle
 {
@@ -9,8 +10,8 @@ export class Food extends Particle
 
     constructor() {
         super();
-        this.position = math.random([2]);
-        this.velocity = math.zeros([2]);
+        this.position = new Pt(math.random(), math.random());
+        this.velocity = new Pt(math.random(), math.random());
         this.energy = Math.random();
     }
 }

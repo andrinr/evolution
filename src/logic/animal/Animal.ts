@@ -1,4 +1,5 @@
 import * as math from 'mathjs';
+import { CanvasForm, CanvasSpace, Circle, Pt } from 'pts';
 
 import { Particle } from '../Particle';
 import type { Food } from "../world/Food";
@@ -12,15 +13,13 @@ export class Animal extends Particle
 {
     brain : Brain;
     energy : number;
-    position : math.matrix<number>;
-    velocity : math.matrix<number>;
 
     constructor(animalParams : AnimalParams){
         super();
         this.brain = animalParams.brain;
         this.energy = 0.5;
-        this.position = math.random([2]);
-        this.velocity = math.zeros([2]);
+        this.position = new Pt(math.random(), math.random());
+        this.velocity = new Pt(math.random(), math.random());
     }
 
     eat(food : Food){
@@ -29,6 +28,15 @@ export class Animal extends Particle
 
     update(dt : number){
         this.updatePosition(dt);
+    }
+
+    draw(form : CanvasForm, space : CanvasSpace){
+        const circle = Circle.fromCenter(this.position.$multiply(space.size), 10);
+        form.fill("#fff").circle(circle);
+    }
+
+    stare(){
+
     }
 
     breed(amount : number, mutationStregnth : number) : Animal[]{

@@ -1,10 +1,11 @@
+import type { CanvasForm, CanvasSpace } from "pts";
 import { Animal } from "../animal/Animal";
 import { Brain } from "../animal/Brain";
 import { Layer } from "../animal/Layer";
 import { Environment } from "./Environment";
 import type { EvolutionRenderer } from "./EvolutionRenderer";
 
-interface EvolutionParams
+export interface EvolutionParams
 { 
     nInstances : number, 
     survivalSteepness : number,
@@ -66,6 +67,12 @@ export class Evolution
                 this.simualtionTime = 0;
                 this.evolve();
             }
+        }
+    }
+
+    draw(form : CanvasForm, space : CanvasSpace){
+        for (const animal of this.animals){
+            animal.draw(form, space);
         }
     }
 
