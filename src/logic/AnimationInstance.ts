@@ -1,4 +1,4 @@
-export interface AnimationInstance{
+export interface Updatable
+{
     update(dt : number);
-    draw();
 }

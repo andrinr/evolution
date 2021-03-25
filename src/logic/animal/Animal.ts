@@ -1,7 +1,7 @@
 import * as math from 'mathjs';
 
-import type { AnimationInstance } from "../AnimationInstance";
-import { ObjectInstance } from '../ObjectInstance';
+import type { Updatable } from "../AnimationInstance";
+import { Particle } from '../ObjectInstance';
 import type { Food } from "../world/Food";
 import type { Brain } from "./Brain";
 
@@ -10,7 +10,8 @@ interface AnimalParams{
 
 }
 
-export class Animal extends ObjectInstance implements AnimationInstance{
+export class Animal extends Particle implements Updatable
+{
     brain : Brain;
     energy : number;
     position : math.matrix<number>;
@@ -31,16 +32,11 @@ export class Animal extends ObjectInstance implements AnimationInstance{
         this.updatePosition(dt);
     }
 
-    draw(){
-        
-    }
-
     breed(amount : number, mutationStregnth : number) : Animal[]{
         const children = [];
         for (let i = 0; i < amount; i++){
             children.push(this.brain.clone().mutate(mutationStregnth))
         }   
-
         return children;
     }
 }

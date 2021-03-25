@@ -2,6 +2,7 @@ import { Animal } from "../animal/Animal";
 import { Brain } from "../animal/Brain";
 import { Layer } from "../animal/Layer";
 import { Environment } from "./Environment";
+import type { EvolutionRenderer } from "./EvolutionRenderer";
 
 interface EvolutionParams
 { 
@@ -16,6 +17,7 @@ export class Evolution
     params : EvolutionParams;
     animals : Animal[];
     environment : Environment;
+    renderer : EvolutionRenderer;
     
     constructor(params : EvolutionParams){
         this.params = params;
@@ -34,7 +36,11 @@ export class Evolution
             this.animals.push(new Animal({ brain: brain }));
         }
 
-        this.environment = new Environment();
+        this.environment = new Environment({nInstances : 100});
+    }
+
+    attachRenderer(renderer : EvolutionRenderer){
+        this.renderer = renderer;
     }
 
     epoch(){
@@ -45,6 +51,8 @@ export class Evolution
             for (const animal of this.animals){
                 animal.update(this.params.deltaTime);
             }
+            // Call independant renderer in each time step
+            if (this.renderer) this.renderer.render();
         }
     }
 
