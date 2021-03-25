@@ -22,3 +22,10 @@
 </script>
 
 <canvas id="canvas" />
+
+<style>
+    #canvas{
+        width: 300px;
+        height: 300px;
+    }
+</style>

@@ -1,7 +1,7 @@
 import * as math from 'mathjs';
 
 import type { Updatable } from "../AnimationInstance";
-import { Particle } from '../ObjectInstance';
+import { Particle } from '../Particle';
 import type { Food } from "../world/Food";
 import type { Brain } from "./Brain";
 
@@ -22,6 +22,7 @@ export class Animal extends Particle implements Updatable
         this.brain = animalParams.brain;
         this.energy = 0.5;
         this.position = math.random([2]);
+        this.velocity = math.zeros([2]);
     }
 
     eat(food : Food){

@@ -4,10 +4,17 @@ export abstract class Particle
 {
     position : math.matrix<number>;
     velocity : math.matrix<number>;
+
+    constructor(){
+
+    }
     
     protected updatePosition(dt : number)
     {
-        console.log(dt);
         this.position = math.add(this.position, math.multiply(this.velocity, dt));
+    }
+
+    update(dt : number){
+        this.updatePosition(dt);
     }
 }
