@@ -48,10 +48,11 @@ export class Evolution
 
     update(speedup? : number){
         const step = this.params.timePerEpoch / this.params.deltaTime;
-
+        if (!speedup) speedup = 1;
         console.log("Updating evolution");
 
-        for (let i = 0; i < speedup ? speedup : 1; i++){
+        for (let i = 0; i < speedup; i++){
+            console.log(i);
             this.environment.update(this.params.deltaTime);
             for (const animal of this.animals){
                 animal.update(this.params.deltaTime);

@@ -1,16 +1,14 @@
 import * as math from 'mathjs';
 
-import type { Updatable } from "../AnimationInstance";
 import { Particle } from '../Particle';
 import type { Food } from "../world/Food";
 import type { Brain } from "./Brain";
 
 interface AnimalParams{ 
     brain: Brain,
-
 }
 
-export class Animal extends Particle implements Updatable
+export class Animal extends Particle
 {
     brain : Brain;
     energy : number;

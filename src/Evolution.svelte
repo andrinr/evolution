@@ -24,8 +24,8 @@
 <canvas id="canvas" />
 
 <style>
-    #canvas{
-        width: 300px;
-        height: 300px;
+    :global(#canvas){
+        width: 800px;
+        height: 800px;
     }
 </style>

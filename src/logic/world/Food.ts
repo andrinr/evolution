@@ -1,4 +1,3 @@
-import type { Updatable } from "../AnimationInstance";
 import { Particle } from '../Particle';
 import * as math from 'mathjs';
 
