@@ -1,17 +1,20 @@
 import type { Evolution } from "./Evolution";
 import * as math from 'mathjs';
 
-interface RendererParams {
+interface RendererParams 
+{
     canvasId: string,
     evolution: Evolution,
 }
 
-export class EvolutionRenderer {
+export class EvolutionRenderer 
+{
     params: RendererParams;
     context: CanvasRenderingContext2D;
     canvas: HTMLCanvasElement;
 
-    constructor(params: RendererParams) {
+    constructor(params: RendererParams)
+    {
         this.params = params;
         this.params.evolution.attachRenderer(this);
 
@@ -19,7 +22,8 @@ export class EvolutionRenderer {
         this.context = this.canvas.getContext("2d");
     }
 
-    render() {
+    render() 
+    {
         for (const food of this.params.evolution.environment.foods) {
             this.context.fillRect(
                 math.subset(food.position, math.index(0)) * this.canvas.width,

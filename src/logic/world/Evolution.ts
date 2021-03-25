@@ -6,7 +6,7 @@ import { Environment } from "./Environment";
 import type { EvolutionRenderer } from "./EvolutionRenderer";
 
 export interface EvolutionParams
-{ 
+{
     nInstances : number, 
     survivalSteepness : number,
     timePerEpoch : number,
@@ -22,7 +22,8 @@ export class Evolution
     epoch : number;
     simualtionTime : number;
     
-    constructor(params : EvolutionParams){
+    constructor(params : EvolutionParams)
+    {
         this.params = params;
 
         this.animals = [];
@@ -43,11 +44,13 @@ export class Evolution
         this.epoch = 0;
     }
 
-    attachRenderer(renderer : EvolutionRenderer){
+    attachRenderer(renderer : EvolutionRenderer)
+    {
         this.renderer = renderer;
     }
 
-    update(speedup? : number){
+    update(speedup? : number)
+    {
         const step = this.params.timePerEpoch / this.params.deltaTime;
         if (!speedup) speedup = 1;
         console.log("Updating evolution");
@@ -70,13 +73,15 @@ export class Evolution
         }
     }
 
-    draw(form : CanvasForm, space : CanvasSpace){
+    draw(form : CanvasForm, space : CanvasSpace)
+    {
         for (const animal of this.animals){
             animal.draw(form, space);
         }
     }
 
-    evolve(){
+    evolve()
+    {
         console.log("New epoch reached");
     }
 }

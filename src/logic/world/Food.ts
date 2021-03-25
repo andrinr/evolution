@@ -8,7 +8,8 @@ export class Food extends Particle
     position: math.matrix<number>;
     velocity : math.matrix<number>;
 
-    constructor() {
+    constructor()
+    {
         super();
         this.position = new Pt(math.random(), math.random());
         this.velocity = new Pt(math.random(), math.random());

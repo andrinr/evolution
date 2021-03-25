@@ -1,6 +1,7 @@
 import { Food } from "./Food";
 
-interface EnvironmentParams {
+interface EnvironmentParams 
+{
     nInstances : number,
 }
 
@@ -9,7 +10,8 @@ export class Environment
     params : EnvironmentParams;
     foods : Food[];
 
-    constructor(params : EnvironmentParams){
+    constructor(params : EnvironmentParams)
+    {
         this.params = params;
         this.foods = [];
         for (let i = 0; i < this.params.nInstances; i++){
@@ -17,7 +19,8 @@ export class Environment
         }
     }
 
-    update(dt : number){
+    update(dt : number)
+    {
         for (const food of this.foods){
             food.update(dt);
         }

@@ -14,7 +14,7 @@
     let space : CanvasSpace = null;
     let form : CanvasForm = null;
 
-    onMount(async () => {
+    onMount( async () => {
         space = new CanvasSpace("#canvas");
         space.setup({ bgcolor: "#123" });
         form = space.getForm();
