@@ -18,6 +18,8 @@ export class Evolution
     animals : Animal[];
     environment : Environment;
     renderer : EvolutionRenderer;
+    epoch : number;
+    simualtionTime : number;
     
     constructor(params : EvolutionParams){
         this.params = params;
@@ -37,28 +39,34 @@ export class Evolution
         }
 
         this.environment = new Environment({nInstances : 100});
+        this.epoch = 0;
     }
 
     attachRenderer(renderer : EvolutionRenderer){
         this.renderer = renderer;
     }
 
-    epoch(){
+    update(speedup? : number){
         const step = this.params.timePerEpoch / this.params.deltaTime;
 
-        for (let i = 0; i < this.params.timePerEpoch; i += step){
+        for (let i = 0; i < speedup ? speedup : 1; i++){
             this.environment.update(this.params.deltaTime);
             for (const animal of this.animals){
                 animal.update(this.params.deltaTime);
             }
             // Call independant renderer in each time step
             if (this.renderer) this.renderer.render();
+            this.simualtionTime += step;
+
+            if (this.simualtionTime > this.params.timePerEpoch){
+                this.epoch++;
+                this.simualtionTime = 0;
+                this.evolve();
+            }
         }
     }
 
-    evolve(nEpochs : number){
-        for (let i = 0; i < nEpochs; i++){
-            this.epoch();
-        }
+    evolve(){
+        console.log("New epoch reached");
     }
 }

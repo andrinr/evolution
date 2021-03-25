@@ -1,21 +1,24 @@
 <script lang="ts">
-    import * as math from "mathjs";
-    import { Brain } from "./logic/animal/Brain";
-    import { Animal } from "./logic/animal/Animal";
-    import { Layer } from "./logic/animal/Layer";
-import { Evolution } from "./logic/world/Evolution";
-import { EvolutionRenderer } from "./logic/world/EvolutionRenderer";
+    import { Evolution } from "./logic/world/Evolution";
+    import { EvolutionRenderer } from "./logic/world/EvolutionRenderer";
+    import { onMount } from "svelte";
 
     const evolution = new Evolution({
-        nInstances : 100,
-        survivalSteepness : 2,
-        timePerEpoch : 40,
-        deltaTime : 0.01,
+        nInstances: 100,
+        survivalSteepness: 2,
+        timePerEpoch: 40,
+        deltaTime: 0.01,
     });
 
-    evolution.evolve(10);
+    onMount(async () => {
+        new EvolutionRenderer({ evolution: evolution, canvasId: "canvas" });
+        update();
+    });
 
-    const renderer = new EvolutionRenderer({evolution : evolution, canvasId : "canvas"});
+    const update = () => {
+        evolution.update();
+        requestAnimationFrame(update);
+    }
 </script>
 
-<canvas id="canvas"></canvas>
+<canvas id="canvas" />

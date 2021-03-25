@@ -21,7 +21,7 @@ export class EvolutionRenderer
 
     render(){
         for (const food of this.params.evolution.environment.foods){
-            this.context.fillRect(food.position[0], food.position[1], 10, 10);
+            this.context.fillRect(food.position.get(0), food.position.get(0), 10, 10);
         }
     }
 }
