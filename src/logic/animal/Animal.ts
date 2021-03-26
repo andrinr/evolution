@@ -1,23 +1,23 @@
 import * as math from 'mathjs';
 import { CanvasForm, CanvasSpace, Circle, Pt } from 'pts';
 import type { Drawable } from '../Drawable';
-import { Particle, ParticleParams } from '../Particle';
+import { Swimmer, SwimmerParams } from '../Particle';
 import type { Food } from "../world/Food";
 import type { Brain } from "./Brain";
 
-interface AnimalParams extends ParticleParams
+interface AnimalParams extends SwimmerParams
 { 
     brain: Brain,
 }
 
-export class Animal extends Particle
+export class Animal extends Swimmer
 {
     params: AnimalParams;
     energy : number;
 
     constructor(params : AnimalParams)
     {
-        super(params as ParticleParams);
+        super(params as SwimmerParams);
         this.params = params;
         this.energy = 0.5;
     }

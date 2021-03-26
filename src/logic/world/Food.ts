@@ -1,17 +1,17 @@
-import { Particle, ParticleParams } from '../Particle';
+import { Swimmer, SwimmerParams } from '../Particle';
 
-interface FoodParams extends ParticleParams
+interface FoodParams extends SwimmerParams
 {
 
 }
 
-export class Food extends Particle
+export class Food extends Swimmer
 {
     energy: number
 
     constructor(params : FoodParams)
     {
-        super(params as ParticleParams);
+        super(params as SwimmerParams);
         this.energy = Math.random();
     }
 }

@@ -1,7 +1,7 @@
-import { CanvasForm, CanvasSpace, Circle, Color, Pt } from 'pts';
+import { CanvasForm, CanvasSpace, Circle, Color, Num, Particle, Pt } from 'pts';
 import type { Drawable } from './Drawable';
 
-export interface ParticleParams 
+export interface SwimmerParams 
 {
     initialVelocity?: number,
     damping?: number,
@@ -9,32 +9,30 @@ export interface ParticleParams
     color? : Color
 }
 
-export abstract class Particle implements Drawable
+export abstract class Swimmer extends Particle
 {
-    params: ParticleParams;
+    params: SwimmerParams;
 
-    static defaultParams : ParticleParams = {
+    static defaultParams : SwimmerParams = {
         initialVelocity : 0,
         damping : 0.99,
         randomAcceleration : 0,
         color : new Color(1,1,1),
     };
 
-    position : Pt;
-    velocity : Pt;
-
-    constructor(params : ParticleParams)
+    constructor(params : SwimmerParams)
     {
-        this.params = Object.assign({}, Particle.defaultParams, params);
-        this.position = Pt.make(2, 1, true);
-        this.velocity = Pt.make(2, 1, true).unit().multiply(this.params.initialVelocity);
+        super(Pt.make(2, 1, true));
+        this.params = Object.assign({}, Swimmer.defaultParams, params);
+
+        this.hit( new Pt(Num.randomRange(-1,1), Num.randomRange(-1, 1)).unit().multiply(this.params.randomAcceleration) );
     }
     
     protected updatePosition(dt : number)
     {
-        this.velocity.multiply(0.999);
+        this.force.multiply(0.999);
         //this.velocity.add(new Pt(math.random()));
-        this.position.add(this.velocity.$multiply(dt));
+        this.position.add(this.force.$multiply(dt));
         // periodic boundaries
         this.position.x = Math.max(0, Math.min(1, this.position.x));
         this.position.y = Math.max(0, Math.min(1, this.position.y));
