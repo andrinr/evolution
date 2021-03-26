@@ -48,19 +48,19 @@ export class Evolution
 
         this.environment = new Environment({nInstances : 100});
         this.epoch = 0;
+        this.simualtionTime = 0;
     }
 
     update(speedup : number = 1)
     {
-        const step = this.params.timePerEpoch / this.params.deltaTime;
-
         for (let i = 0; i < speedup; i++){
             this.environment.update(this.params.deltaTime);
+
             for (const animal of this.animals){
                 animal.update(this.params.deltaTime);
             }
-            this.simualtionTime += step;
 
+            this.simualtionTime += this.params.deltaTime;
             if (this.simualtionTime > this.params.timePerEpoch){
                 this.epoch++;
                 this.simualtionTime = 0;
@@ -80,6 +80,6 @@ export class Evolution
 
     evolve()
     {
-        console.log("New epoch reached");
+        console.log(`Epoch ${this.epoch} reached.`);
     }
 }

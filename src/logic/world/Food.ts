@@ -1,6 +1,4 @@
 import { Particle, ParticleParams } from '../Particle';
-import type { CanvasForm, CanvasSpace, Pt } from 'pts';
-import type { Drawable } from '../Drawable';
 
 interface FoodParams extends ParticleParams
 {

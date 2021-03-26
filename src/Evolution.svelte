@@ -7,8 +7,8 @@
     const evolution = new Evolution({
         nInstances: 100,
         survivalSteepness: 2,
-        timePerEpoch: 40,
-        deltaTime: 0.01,
+        timePerEpoch: 4,
+        deltaTime: 0.02,
     });
 
     let space : CanvasSpace = null;
