@@ -25,7 +25,7 @@ export abstract class Swimmer extends Particle
         super(Pt.make(2, 1, true));
         this.params = Object.assign({}, Swimmer.defaultParams, params);
 
-        this.hit( new Pt(Num.randomRange(-1,1), Num.randomRange(-1, 1)).unit().multiply(this.params.randomAcceleration) );
+        this.hit( new Pt(Num.randomRange(-1, 1), Num.randomRange(-1, 1)).unit().multiply(this.params.initialVelocity) );
     }
     
     protected updatePosition(dt : number)
