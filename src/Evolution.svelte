@@ -3,6 +3,7 @@
     import { onMount } from "svelte";
 
     import {CanvasSpace, Circle, CanvasForm} from "pts"
+import { safe_not_equal } from "svelte/internal";
 
     const evolution = new Evolution({
         nInstances: 100,
@@ -18,6 +19,9 @@
         space = new CanvasSpace("#canvas");
         space.setup({ bgcolor: "#123" });
         form = space.getForm();
+
+        console.log(space);
+        console.log(form);
 
         space.add( time => {
             evolution.update(10);

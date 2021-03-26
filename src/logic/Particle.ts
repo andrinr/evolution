@@ -35,6 +35,9 @@ export abstract class Particle implements Drawable
         this.velocity.multiply(0.999);
         //this.velocity.add(new Pt(math.random()));
         this.position.add(this.velocity.$multiply(dt));
+        // periodic boundaries
+        this.position.x = Math.max(0, Math.min(1, this.position.x));
+        this.position.y = Math.max(0, Math.min(1, this.position.y));
     }
 
     update(dt : number)

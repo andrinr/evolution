@@ -39,9 +39,7 @@ export class Evolution
             
             this.animals.push(new Animal({ 
                 brain: brain, 
-                initialVelocity : 0.2, 
                 damping : 0.999, 
-                randomAcceleration : 0.1,
                 color : new Color(1, 0.5 , 0),
             }));
         }

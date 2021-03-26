@@ -17,7 +17,10 @@ export class Environment implements Drawable
         this.params = params;
         this.foods = [];
         for (let i = 0; i < this.params.nInstances; i++){
-            this.foods.push(new Food({damping : 0.99}));
+            this.foods.push(new Food({
+                damping : 0.99,
+                randomAcceleration: 0.01,
+            }));
         }
     }
 
