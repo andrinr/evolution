@@ -20,7 +20,7 @@
         form = space.getForm();
 
         space.add( time => {
-            evolution.update();
+            evolution.update(10);
             evolution.draw(form, space);
         });
 
