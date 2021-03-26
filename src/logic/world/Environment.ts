@@ -15,7 +15,7 @@ export class Environment
         this.params = params;
         this.foods = [];
         for (let i = 0; i < this.params.nInstances; i++){
-            this.foods.push(new Food());
+            this.foods.push(new Food({damping : 0.99}));
         }
     }
 

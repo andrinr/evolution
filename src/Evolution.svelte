@@ -20,8 +20,6 @@
         form = space.getForm();
 
         space.add( time => {
-            const circle = Circle.fromCenter(space.pointer, 10);
-            form.fill("#321").circle(circle);
             evolution.update();
             evolution.draw(form, space);
         });

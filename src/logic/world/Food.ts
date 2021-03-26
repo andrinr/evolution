@@ -1,18 +1,23 @@
-import { Particle } from '../Particle';
-import * as math from 'mathjs';
-import { Pt } from 'pts';
+import { Particle, ParticleParams } from '../Particle';
+import type { CanvasForm, CanvasSpace, Pt } from 'pts';
+import type { Drawable } from '../Drawable';
 
-export class Food extends Particle
+interface FoodParams extends ParticleParams
+{
+
+}
+
+export class Food extends Particle implements Drawable
 {
     energy: number
-    position: math.matrix<number>;
-    velocity : math.matrix<number>;
 
-    constructor()
+    constructor(params : FoodParams)
     {
-        super();
-        this.position = new Pt(math.random(), math.random());
-        this.velocity = new Pt(math.random(), math.random());
+        super(params as ParticleParams);
         this.energy = Math.random();
+    }
+
+    draw(form : CanvasForm, space : CanvasSpace){
+        
     }
 }

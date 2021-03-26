@@ -1,26 +1,25 @@
 import * as math from 'mathjs';
 import { CanvasForm, CanvasSpace, Circle, Pt } from 'pts';
-import { Particle } from '../Particle';
+import type { Drawable } from '../Drawable';
+import { Particle, ParticleParams } from '../Particle';
 import type { Food } from "../world/Food";
 import type { Brain } from "./Brain";
 
-interface AnimalParams
+interface AnimalParams extends ParticleParams
 { 
     brain: Brain,
 }
 
-export class Animal extends Particle
+export class Animal extends Particle implements Drawable
 {
-    brain : Brain;
+    params: AnimalParams;
     energy : number;
 
-    constructor(animalParams : AnimalParams)
+    constructor(params : AnimalParams)
     {
-        super();
-        this.brain = animalParams.brain;
+        super(params as ParticleParams);
+        this.params = params;
         this.energy = 0.5;
-        this.position = new Pt(math.random(), math.random());
-        this.velocity = new Pt(math.random(), math.random());
     }
 
     eat(food : Food)
@@ -30,6 +29,7 @@ export class Animal extends Particle
 
     update(dt : number)
     {
+        this.velocity.add(new Pt(math.random()-0.5, math.random()-0.5).multiply(0.01))
         this.updatePosition(dt);
     }
 
@@ -48,7 +48,7 @@ export class Animal extends Particle
     {
         const children = [];
         for (let i = 0; i < amount; i++){
-            children.push(this.brain.clone().mutate(mutationStregnth))
+            children.push(this.params.brain.clone().mutate(mutationStregnth));
         }   
         return children;
     }

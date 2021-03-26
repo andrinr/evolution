@@ -37,7 +37,7 @@ export class Evolution
                 ],
             });
         
-            this.animals.push(new Animal({ brain: brain }));
+            this.animals.push(new Animal({ brain: brain, initialVelocity : 0.2, damping : 0.999, randomAcceleration : 0.1 }));
         }
 
         this.environment = new Environment({nInstances : 100});
@@ -49,11 +49,9 @@ export class Evolution
         this.renderer = renderer;
     }
 
-    update(speedup? : number)
+    update(speedup : number = 1)
     {
         const step = this.params.timePerEpoch / this.params.deltaTime;
-        if (!speedup) speedup = 1;
-        console.log("Updating evolution");
 
         for (let i = 0; i < speedup; i++){
             console.log(i);
