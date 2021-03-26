@@ -1,16 +1,7 @@
 <script lang="ts">
-    import { Evolution } from "./logic/world/Evolution";
     import { onMount } from "svelte";
-
     import {CanvasSpace, Circle, CanvasForm} from "pts"
-import { safe_not_equal } from "svelte/internal";
-
-    const evolution = new Evolution({
-        nInstances: 100,
-        survivalSteepness: 2,
-        timePerEpoch: 4,
-        deltaTime: 0.02,
-    });
+    import { Simulation } from "./logic/world/Simulation";
 
     let space : CanvasSpace = null;
     let form : CanvasForm = null;
@@ -20,15 +11,16 @@ import { safe_not_equal } from "svelte/internal";
         space.setup({ bgcolor: "#123" });
         form = space.getForm();
 
-        console.log(space);
-        console.log(form);
-
-        space.add( time => {
-            evolution.update(10);
-            evolution.draw(form, space);
+        const evolution = new Simulation({
+            animalCount: 100,
+            foodCount: 200,
+            survivalSteepness: 2,
+            evolutionSpeedup : 1,
+            timePerEpoch: 4,
+            deltaTime: 0.02,
+            space : space,
+            form : form,
         });
-
-        space.play();
     });
 </script>
 

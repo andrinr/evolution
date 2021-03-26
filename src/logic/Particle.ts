@@ -1,5 +1,4 @@
-import { CanvasForm, CanvasSpace, Circle, Color, Num, Particle, Pt } from 'pts';
-import type { Drawable } from './Drawable';
+import { Color, Num, Particle, Pt } from 'pts';
 
 export interface SwimmerParams 
 {
@@ -41,10 +40,5 @@ export abstract class Swimmer extends Particle
     update(dt : number)
     {
         this.updatePosition(dt);
-    }
-
-    draw(form : CanvasForm, space : CanvasSpace){
-        const circle = Circle.fromCenter(this.position.$multiply(space.size), 5);
-        form.fill(this.params.color.hex).circle(circle);
     }
 }

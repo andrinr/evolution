@@ -1,28 +1,27 @@
-import { CanvasForm, CanvasSpace, World } from "pts";
+import { CanvasForm, CanvasSpace, Particle, World } from "pts";
 import { Animal } from "../animal/Animal";
 import { Brain } from "../animal/Brain";
 import { Layer } from "../animal/Layer";
-import type { Drawable } from "../Drawable";
 import { Food } from "./Food";
-import type { Species } from "./Species";
 
 interface SimulationParams 
 {
     foodCount : number,
     animalCount : number,
+    survivalSteepness : number,
     timePerEpoch : number,
     deltaTime : number,
     space : CanvasSpace,
-    form : CanvasForm
+    form : CanvasForm, 
+    evolutionSpeedup : number,
 }
 
-export class Simulation implements Drawable
+export class Simulation
 {
     params : SimulationParams;
     foods : Food[];
     animals : Animal[];
     world : World;
-    species : Species[];
     simualtionTime : number;
     epoch : number;
 
@@ -30,6 +29,7 @@ export class Simulation implements Drawable
     {
         this.params = params;
         this.foods = [];
+        this.animals = [];
         this.world = new World(this.params.space.innerBound, 1, 0);
 
         for (let i = 0; i < this.params.foodCount; i++){
@@ -58,40 +58,43 @@ export class Simulation implements Drawable
             this.animals.push(animal);
             this.world.add(animal);
         }
+
+        this.update = this.update.bind(this);
+        this.draw = this.draw.bind(this);
+
+        this.params.space.add(this.update);
+
         this.simualtionTime = 0;
         this.epoch = 0;
+
+        this.params.space.play();
     }
 
-    update(speedup : number = 1)
-    {
-        for (let i = 0; i < speedup; i++){
-            for (const species of this.species){
-                species.update();
-            }
-            
-            for (const animal of this.foods){
-                animal.update(this.params.deltaTime);
-            }
 
+    update()
+    {
+        console.log("update");
+        this.draw();
+        for (let i = 0; i < this.params.evolutionSpeedup; i++){
+            this.world.update(this.params.deltaTime)
             this.simualtionTime += this.params.deltaTime;
             if (this.simualtionTime > this.params.timePerEpoch){
                 this.epoch++;
                 this.simualtionTime = 0;
-                for (const species of this.species){
-                    species.evolve();
-                }
+                this.evolve();
             }
         }
     }
 
+    evolve(){
+        console.log("New epoch reached");
+    }   
 
-    draw(form : CanvasForm, space : CanvasSpace){
-        for (const food of this.foods){
-            food.draw(form, space);
-        }
 
-        for (const species of this.species){
-            species.draw(form, space);
-        }
+    draw(){
+        this.world.drawParticles((p: Particle, i : number) =>{
+            let color = (i===0) ? "#fff" : ["#ff2d5d", "#42dc8e", "#2e43eb", "#ffe359"][i%4];
+            this.params.form.fillOnly( color ).point( p.$multiply(this.params.space.size), p.radius, "circle" ) 
+        });
     }
 }

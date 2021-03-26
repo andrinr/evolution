@@ -1,6 +1,5 @@
 import * as math from 'mathjs';
-import { CanvasForm, CanvasSpace, Circle, Pt } from 'pts';
-import type { Drawable } from '../Drawable';
+import { Pt } from 'pts';
 import { Swimmer, SwimmerParams } from '../Particle';
 import type { Food } from "../world/Food";
 import type { Brain } from "./Brain";
@@ -29,7 +28,7 @@ export class Animal extends Swimmer
 
     update(dt : number)
     {
-        this.velocity.add(new Pt(math.random()-0.5, math.random()-0.5).multiply(0.01))
+        this.hit(new Pt(math.random()-0.5, math.random()-0.5).multiply(0.01))
         this.updatePosition(dt);
     }
 
