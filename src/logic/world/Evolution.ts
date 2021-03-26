@@ -1,9 +1,8 @@
-import type { CanvasForm, CanvasSpace } from "pts";
+import { CanvasForm, CanvasSpace, Color } from "pts";
 import { Animal } from "../animal/Animal";
 import { Brain } from "../animal/Brain";
 import { Layer } from "../animal/Layer";
 import { Environment } from "./Environment";
-import type { EvolutionRenderer } from "./EvolutionRenderer";
 
 export interface EvolutionParams
 {
@@ -18,7 +17,6 @@ export class Evolution
     params : EvolutionParams;
     animals : Animal[];
     environment : Environment;
-    renderer : EvolutionRenderer;
     epoch : number;
     simualtionTime : number;
     
@@ -27,6 +25,8 @@ export class Evolution
         this.params = params;
 
         this.animals = [];
+
+        console.log(new Color(1, 0.5 , 0).hex);
         
         for (let i = 0; i < params.nInstances; ++i){
             const brain = new Brain({
@@ -36,17 +36,18 @@ export class Evolution
                     new Layer({ breadth: 3 }),
                 ],
             });
-        
-            this.animals.push(new Animal({ brain: brain, initialVelocity : 0.2, damping : 0.999, randomAcceleration : 0.1 }));
+            
+            this.animals.push(new Animal({ 
+                brain: brain, 
+                initialVelocity : 0.2, 
+                damping : 0.999, 
+                randomAcceleration : 0.1,
+                color : new Color(1, 0.5 , 0),
+            }));
         }
 
         this.environment = new Environment({nInstances : 100});
         this.epoch = 0;
-    }
-
-    attachRenderer(renderer : EvolutionRenderer)
-    {
-        this.renderer = renderer;
     }
 
     update(speedup : number = 1)
@@ -54,13 +55,10 @@ export class Evolution
         const step = this.params.timePerEpoch / this.params.deltaTime;
 
         for (let i = 0; i < speedup; i++){
-            console.log(i);
             this.environment.update(this.params.deltaTime);
             for (const animal of this.animals){
                 animal.update(this.params.deltaTime);
             }
-            // Call independant renderer in each time step
-            if (this.renderer) this.renderer.render();
             this.simualtionTime += step;
 
             if (this.simualtionTime > this.params.timePerEpoch){
@@ -76,6 +74,8 @@ export class Evolution
         for (const animal of this.animals){
             animal.draw(form, space);
         }
+
+        this.environment.draw(form, space);
     }
 
     evolve()

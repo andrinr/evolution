@@ -10,7 +10,7 @@ interface AnimalParams extends ParticleParams
     brain: Brain,
 }
 
-export class Animal extends Particle implements Drawable
+export class Animal extends Particle
 {
     params: AnimalParams;
     energy : number;
@@ -31,12 +31,6 @@ export class Animal extends Particle implements Drawable
     {
         this.velocity.add(new Pt(math.random()-0.5, math.random()-0.5).multiply(0.01))
         this.updatePosition(dt);
-    }
-
-    draw(form : CanvasForm, space : CanvasSpace)
-    {
-        const circle = Circle.fromCenter(this.position.$multiply(space.size), 10);
-        form.fill("#fff").circle(circle);
     }
 
     stare()

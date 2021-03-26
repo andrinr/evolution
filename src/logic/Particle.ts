@@ -1,21 +1,23 @@
-import { Pt } from 'pts';
+import { CanvasForm, CanvasSpace, Circle, Color, Pt } from 'pts';
+import type { Drawable } from './Drawable';
 
-export interface ParticleParams {
+export interface ParticleParams 
+{
     initialVelocity?: number,
     damping?: number,
-    randomAcceleration?: number
+    randomAcceleration?: number,
+    color? : Color
 }
 
-
-
-export abstract class Particle
+export abstract class Particle implements Drawable
 {
     params: ParticleParams;
 
     static defaultParams : ParticleParams = {
         initialVelocity : 0,
         damping : 0.99,
-        randomAcceleration : 0
+        randomAcceleration : 0,
+        color : new Color(1,1,1),
     };
 
     position : Pt;
@@ -38,5 +40,10 @@ export abstract class Particle
     update(dt : number)
     {
         this.updatePosition(dt);
+    }
+
+    draw(form : CanvasForm, space : CanvasSpace){
+        const circle = Circle.fromCenter(this.position.$multiply(space.size), 5);
+        form.fill(this.params.color.hex).circle(circle);
     }
 }

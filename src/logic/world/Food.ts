@@ -7,7 +7,7 @@ interface FoodParams extends ParticleParams
 
 }
 
-export class Food extends Particle implements Drawable
+export class Food extends Particle
 {
     energy: number
 
@@ -15,9 +15,5 @@ export class Food extends Particle implements Drawable
     {
         super(params as ParticleParams);
         this.energy = Math.random();
-    }
-
-    draw(form : CanvasForm, space : CanvasSpace){
-        
     }
 }

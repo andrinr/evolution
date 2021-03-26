@@ -1,3 +1,5 @@
+import type { CanvasForm, CanvasSpace } from "pts";
+import type { Drawable } from "../Drawable";
 import { Food } from "./Food";
 
 interface EnvironmentParams 
@@ -5,7 +7,7 @@ interface EnvironmentParams
     nInstances : number,
 }
 
-export class Environment
+export class Environment implements Drawable
 {
     params : EnvironmentParams;
     foods : Food[];
@@ -23,6 +25,12 @@ export class Environment
     {
         for (const food of this.foods){
             food.update(dt);
+        }
+    }
+
+    draw(form : CanvasForm, space : CanvasSpace){
+        for (const food of this.foods){
+            food.draw(form, space);
         }
     }
 }
