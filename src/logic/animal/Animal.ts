@@ -28,7 +28,7 @@ export class Animal extends Swimmer
 
     update(dt : number)
     {
-        this.hit(new Pt(math.random()-0.5, math.random()-0.5).multiply(0.01))
+        this.vel.add(new Pt(math.random()-0.5, math.random()-0.5).multiply(0.01))
         this.updatePosition(dt);
     }
 

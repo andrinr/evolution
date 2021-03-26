@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import {CanvasSpace, Circle, CanvasForm} from "pts"
+    import {CanvasSpace, CanvasForm} from "pts"
     import { Simulation } from "./logic/world/Simulation";
 
     let space : CanvasSpace = null;
@@ -16,8 +16,8 @@
             foodCount: 200,
             survivalSteepness: 2,
             evolutionSpeedup : 1,
-            timePerEpoch: 4,
-            deltaTime: 0.02,
+            timePerEpoch: 40000,
+            deltaTime: 100,
             space : space,
             form : form,
         });

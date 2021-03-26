@@ -1,44 +1,49 @@
-import { Color, Num, Particle, Pt } from 'pts';
+import * as math from 'mathjs';
+import {Pt, Color} from 'pts';
 
 export interface SwimmerParams 
 {
     initialVelocity?: number,
     damping?: number,
     randomAcceleration?: number,
-    color? : Color
+    color? : Color,
+    radius? : number
 }
 
-export abstract class Swimmer extends Particle
+export abstract class Swimmer
 {
-    params: SwimmerParams;
+    params : SwimmerParams;
+    pos : Pt;
+    vel : Pt;
 
     static defaultParams : SwimmerParams = {
         initialVelocity : 0,
         damping : 0.99,
         randomAcceleration : 0,
         color : new Color(1,1,1),
+        radius : 1
     };
 
     constructor(params : SwimmerParams)
     {
-        super(Pt.make(2, 1, true));
         this.params = Object.assign({}, Swimmer.defaultParams, params);
-
-        this.hit( new Pt(Num.randomRange(-1, 1), Num.randomRange(-1, 1)).unit().multiply(this.params.initialVelocity) );
+        this.pos = new Pt(math.random(), math.random());
+        this.vel = new Pt(math.random(), math.random());
     }
     
     protected updatePosition(dt : number)
     {
-        this.force.multiply(0.999);
-        //this.velocity.add(new Pt(math.random()));
-        this.position.add(this.force.$multiply(dt));
+        this.vel.multiply(this.params.damping);
+        this.vel.add(new Pt(math.random(), math.random()).multiply(this.params.randomAcceleration));
+        /*this.position.add(this.force.$multiply(dt));*/
         // periodic boundaries
-        this.position.x = Math.max(0, Math.min(1, this.position.x));
-        this.position.y = Math.max(0, Math.min(1, this.position.y));
+        this.pos.x = Math.max(0, Math.min(1, this.pos.x));
+        this.pos.y = Math.max(0, Math.min(1, this.pos.y));
     }
 
     update(dt : number)
     {
-        this.updatePosition(dt);
+        
+        
     }
 }

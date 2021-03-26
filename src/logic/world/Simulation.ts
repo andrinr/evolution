@@ -1,4 +1,4 @@
-import { CanvasForm, CanvasSpace, Particle, World } from "pts";
+import { CanvasForm, CanvasSpace, Circle } from "pts";
 import { Animal } from "../animal/Animal";
 import { Brain } from "../animal/Brain";
 import { Layer } from "../animal/Layer";
@@ -21,7 +21,6 @@ export class Simulation
     params : SimulationParams;
     foods : Food[];
     animals : Animal[];
-    world : World;
     simualtionTime : number;
     epoch : number;
 
@@ -30,16 +29,15 @@ export class Simulation
         this.params = params;
         this.foods = [];
         this.animals = [];
-        this.world = new World(this.params.space.innerBound, 1, 0);
 
         for (let i = 0; i < this.params.foodCount; i++){
             const food = new Food({
                 damping : 0.99,
+                initialVelocity: 0.1,
                 randomAcceleration: 0.01,
             });
 
             this.foods.push(food);
-            this.world.add(food);
         }
 
         for (let i = 0; i < this.params.animalCount; i++){
@@ -56,7 +54,6 @@ export class Simulation
             })
 
             this.animals.push(animal);
-            this.world.add(animal);
         }
 
         this.update = this.update.bind(this);
@@ -73,11 +70,18 @@ export class Simulation
 
     update()
     {
-        console.log("update");
         this.draw();
         for (let i = 0; i < this.params.evolutionSpeedup; i++){
-            this.world.update(this.params.deltaTime)
             this.simualtionTime += this.params.deltaTime;
+
+            for (const animal of this.animals){
+                animal.update(this.params.deltaTime);
+            }
+    
+            for (const food of this.foods){
+                food.update(this.params.deltaTime);
+            }
+
             if (this.simualtionTime > this.params.timePerEpoch){
                 this.epoch++;
                 this.simualtionTime = 0;
@@ -86,15 +90,22 @@ export class Simulation
         }
     }
 
-    evolve(){
+    evolve()
+    {
         console.log("New epoch reached");
     }   
 
 
-    draw(){
-        this.world.drawParticles((p: Particle, i : number) =>{
-            let color = (i===0) ? "#fff" : ["#ff2d5d", "#42dc8e", "#2e43eb", "#ffe359"][i%4];
-            this.params.form.fillOnly( color ).point( p.$multiply(this.params.space.size), p.radius, "circle" ) 
-        });
+    draw()
+    {
+        for (const animal of this.animals){
+            const circle = Circle.fromCenter(animal.pos.$multiply(this.params.space.size), 5);
+            this.params.form.fill("#fff").circle(circle);
+        }
+
+        for (const food of this.foods){
+            const circle = Circle.fromCenter(food.pos.$multiply(this.params.space.size), 5);
+            this.params.form.fill("#fff").circle(circle);
+        }
     }
 }
