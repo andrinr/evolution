@@ -26,7 +26,9 @@ export class Species
             });
             
             const animal = new Animal({
-                brain : brain
+                brain : brain,
+                randForce: 0.01,
+                randAngle : 0.1
             })
 
             this.animals.push(animal);

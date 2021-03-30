@@ -3,9 +3,9 @@ import {Pt, Color} from 'pts';
 
 export interface SwimmerParams 
 {
-    initialVelocity?: number,
     damping?: number,
-    randomAcceleration?: number,
+    randForce?: number,
+    randAngle? : number,
     color? : Color,
     radius? : number
 }
@@ -14,12 +14,13 @@ export abstract class Swimmer
 {
     protected swimmerParams : SwimmerParams;
     public pos : Pt;
-    public vel : Pt;
+    public force : number;
+    public angle : number;
 
     static defaultParams : SwimmerParams = {
-        initialVelocity : 0,
         damping : 0.99,
-        randomAcceleration : 0,
+        randAngle : 0,
+        randForce: 0,
         color : new Color(1,1,1),
         radius : 1
     };
@@ -29,18 +30,19 @@ export abstract class Swimmer
         this.swimmerParams = Object.assign({}, Swimmer.defaultParams, params);
 
         this.pos = new Pt(math.random(), math.random());
-        this.vel = new Pt(math.random(), math.random());
+        this.force = 0;
+        this.angle = Math.PI * 2 * Math.random();
 
         this.updatePosition = this.updatePosition.bind(this);
     }
     
     protected updatePosition(dt : number)
     {
-        this.vel.multiply(this.swimmerParams.damping);
-        this.vel.add(new Pt(math.random(), math.random()).multiply(this.swimmerParams.randomAcceleration));
-        /*this.position.add(this.force.$multiply(dt));*/
-        // periodic boundaries
-        this.pos.add(this.vel.$multiply(dt));
+        this.force *= this.swimmerParams.damping;
+        this.force += Math.random() * this.swimmerParams.randForce;
+        this.angle += (Math.random()-0.5) * this.swimmerParams.randAngle;
+
+        this.pos.add(new Pt(0,1).rotate2D(this.angle).multiply(this.force).multiply(dt));
         this.pos.x = this.pos.x % 1;
         this.pos.y = this.pos.y % 1;
     }

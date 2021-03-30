@@ -1,4 +1,4 @@
-import { CanvasForm, CanvasSpace, Circle } from "pts";
+import type { CanvasForm, CanvasSpace } from "pts";
 import { Plankton } from "./Plankton";
 
 interface NutritionParams
@@ -17,9 +17,9 @@ export class Nutrition
         this.planktons = [];
         for (let i = 0; i < this.params.count; i++){
             const plankton = new Plankton({
-                damping : 0.99,
-                initialVelocity: 0.1,
-                randomAcceleration: 0.001,
+                damping : 0.999,
+                randAngle : 0.2,
+                randForce : 0.0001,
             });
 
             this.planktons.push(plankton);
