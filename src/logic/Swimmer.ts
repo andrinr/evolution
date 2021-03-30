@@ -12,9 +12,9 @@ export interface SwimmerParams
 
 export abstract class Swimmer
 {
-    params : SwimmerParams;
-    pos : Pt;
-    vel : Pt;
+    protected swimmerParams : SwimmerParams;
+    public pos : Pt;
+    public vel : Pt;
 
     static defaultParams : SwimmerParams = {
         initialVelocity : 0,
@@ -26,24 +26,27 @@ export abstract class Swimmer
 
     constructor(params : SwimmerParams)
     {
-        this.params = Object.assign({}, Swimmer.defaultParams, params);
+        this.swimmerParams = Object.assign({}, Swimmer.defaultParams, params);
+
         this.pos = new Pt(math.random(), math.random());
         this.vel = new Pt(math.random(), math.random());
+
+        this.updatePosition = this.updatePosition.bind(this);
     }
     
     protected updatePosition(dt : number)
     {
-        this.vel.multiply(this.params.damping);
-        this.vel.add(new Pt(math.random(), math.random()).multiply(this.params.randomAcceleration));
+        this.vel.multiply(this.swimmerParams.damping);
+        this.vel.add(new Pt(math.random(), math.random()).multiply(this.swimmerParams.randomAcceleration));
         /*this.position.add(this.force.$multiply(dt));*/
         // periodic boundaries
-        this.pos.x = Math.max(0, Math.min(1, this.pos.x));
-        this.pos.y = Math.max(0, Math.min(1, this.pos.y));
+        this.pos.add(this.vel.$multiply(dt));
+        this.pos.x = this.pos.x % 1;
+        this.pos.y = this.pos.y % 1;
     }
 
     update(dt : number)
     {
-        
-        
+        this.updatePosition(dt);
     }
 }

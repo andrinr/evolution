@@ -1,7 +1,7 @@
 import * as math from 'mathjs';
-import { Pt } from 'pts';
-import { Swimmer, SwimmerParams } from '../Particle';
-import type { Food } from "../world/Food";
+import { CanvasForm, CanvasSpace, Circle, Group, Pt } from 'pts';
+import { Swimmer, SwimmerParams } from '../Swimmer';
+import type { Plankton } from "../world/Plankton";
 import type { Brain } from "./Brain";
 
 interface AnimalParams extends SwimmerParams
@@ -11,24 +11,31 @@ interface AnimalParams extends SwimmerParams
 
 export class Animal extends Swimmer
 {
-    params: AnimalParams;
+    animalParams: AnimalParams;
     energy : number;
+    angle : number;
+    visionLeft : Pt;
+    visionRight : Pt;
 
     constructor(params : AnimalParams)
     {
         super(params as SwimmerParams);
-        this.params = params;
+        this.animalParams = params;
         this.energy = 0.5;
+        this.angle = Math.PI * 2 * Math.random();
+
+        this.visionLeft = new Pt(0,0.1).rotate2D(-0.2);
+        this.visionRight = new Pt(0,0.1).rotate2D(0.2);
     }
 
-    eat(food : Food)
+    eat(food : Plankton)
     {
 
     }
 
     update(dt : number)
     {
-        this.vel.add(new Pt(math.random()-0.5, math.random()-0.5).multiply(0.01))
+        //this.vel.add(new Pt(math.random()-0.5, math.random()-0.5).multiply(0.01))
         this.updatePosition(dt);
     }
 
@@ -37,11 +44,21 @@ export class Animal extends Swimmer
 
     }
 
+    draw(space : CanvasSpace, form : CanvasForm){
+        const circle = Circle.fromCenter(this.pos.$multiply(space.size), 10);
+        
+        form.fillOnly("#f00").circle(circle);
+        form.stroke("#f00").line(Group.fromArray([this.pos.$multiply(space.size), this.visionLeft.$add(this.pos).multiply(space.size)]));
+        form.stroke("#f00").line(Group.fromArray([this.pos.$multiply(space.size), this.visionRight.$add(this.pos).multiply(space.size)]));
+
+        //console.log(this.pos, this.visionLeft.$add(this.pos)])
+    }
+
     breed(amount : number, mutationStregnth : number) : Animal[]
     {
         const children = [];
         for (let i = 0; i < amount; i++){
-            children.push(this.params.brain.clone().mutate(mutationStregnth));
+            children.push(this.animalParams.brain.clone().mutate(mutationStregnth));
         }   
         return children;
     }

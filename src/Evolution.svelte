@@ -1,33 +1,37 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import {CanvasSpace, CanvasForm} from "pts"
+    import { CanvasSpace, CanvasForm } from "pts";
     import { Simulation } from "./logic/world/Simulation";
 
-    let space : CanvasSpace = null;
-    let form : CanvasForm = null;
+    let space: CanvasSpace = null;
+    let form: CanvasForm = null;
 
-    onMount( async () => {
+    onMount(async () => {
         space = new CanvasSpace("#canvas");
         space.setup({ bgcolor: "#123" });
         form = space.getForm();
 
-        const evolution = new Simulation({
-            animalCount: 100,
+        const sim = new Simulation({
+            animalCount: 10,
             foodCount: 200,
             survivalSteepness: 2,
-            evolutionSpeedup : 1,
-            timePerEpoch: 40000,
-            deltaTime: 100,
-            space : space,
-            form : form,
+            evolutionSpeedup: 1,
+            timePerEpoch: 40,
+            deltaTime: 0.01,
+            space: space,
+            form: form,
         });
+
+        space.add(() => sim.update());
+
+        space.play();
     });
 </script>
 
-<canvas id="canvas"/>
+<canvas id="canvas" />
 
 <style>
-    :global(#canvas){
+    :global(#canvas) {
         position: absolute;
         top: 0;
         left: 0;

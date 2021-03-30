@@ -1,8 +1,6 @@
-import { CanvasForm, CanvasSpace, Circle } from "pts";
-import { Animal } from "../animal/Animal";
-import { Brain } from "../animal/Brain";
-import { Layer } from "../animal/Layer";
-import { Food } from "./Food";
+import type { CanvasForm, CanvasSpace } from "pts";
+import { Species } from "../animal/Species";
+import { Nutrition } from "./Nutrition";
 
 interface SimulationParams 
 {
@@ -19,54 +17,32 @@ interface SimulationParams
 export class Simulation
 {
     params : SimulationParams;
-    foods : Food[];
-    animals : Animal[];
+    nutrition : Nutrition;
+    species : Species;
     simualtionTime : number;
     epoch : number;
 
     constructor(params : SimulationParams)
     {
         this.params = params;
-        this.foods = [];
-        this.animals = [];
 
-        for (let i = 0; i < this.params.foodCount; i++){
-            const food = new Food({
-                damping : 0.99,
-                initialVelocity: 0.1,
-                randomAcceleration: 0.01,
-            });
-
-            this.foods.push(food);
-        }
-
-        for (let i = 0; i < this.params.animalCount; i++){
-            const brain = new Brain({
-                layers: [
-                    new Layer({ breadth: 5 }),
-                    new Layer({ breadth: 5 }),
-                    new Layer({ breadth: 3 }),
-                ],
-            });
-            
-            const animal = new Animal({
-                brain : brain
-            })
-
-            this.animals.push(animal);
-        }
+        this.species = new Species({count : params.animalCount});
+        this.nutrition = new Nutrition({count : params.foodCount});
 
         this.update = this.update.bind(this);
         this.draw = this.draw.bind(this);
-
-        this.params.space.add(this.update);
+        this.animationLoop = this.animationLoop.bind(this);
 
         this.simualtionTime = 0;
         this.epoch = 0;
 
-        this.params.space.play();
+        //this.animationLoop();
     }
 
+    animationLoop(){
+        this.update();
+        window.requestAnimationFrame(this.animationLoop);
+    }
 
     update()
     {
@@ -74,13 +50,8 @@ export class Simulation
         for (let i = 0; i < this.params.evolutionSpeedup; i++){
             this.simualtionTime += this.params.deltaTime;
 
-            for (const animal of this.animals){
-                animal.update(this.params.deltaTime);
-            }
-    
-            for (const food of this.foods){
-                food.update(this.params.deltaTime);
-            }
+            this.species.update(this.params.deltaTime);
+            this.nutrition.update(this.params.deltaTime);
 
             if (this.simualtionTime > this.params.timePerEpoch){
                 this.epoch++;
@@ -98,14 +69,7 @@ export class Simulation
 
     draw()
     {
-        for (const animal of this.animals){
-            const circle = Circle.fromCenter(animal.pos.$multiply(this.params.space.size), 5);
-            this.params.form.fill("#fff").circle(circle);
-        }
-
-        for (const food of this.foods){
-            const circle = Circle.fromCenter(food.pos.$multiply(this.params.space.size), 5);
-            this.params.form.fill("#fff").circle(circle);
-        }
+        this.species.draw(this.params.space, this.params.form);
+        this.nutrition.draw(this.params.space, this.params.form);
     }
 }
