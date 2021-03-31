@@ -17,9 +17,9 @@ export class Nutrition
         this.planktons = [];
         for (let i = 0; i < this.params.count; i++){
             const plankton = new Plankton({
-                damping : 0.999,
-                randAngle : 0.2,
-                randForce : 0.0001,
+                friction : 0.1,
+                randAngularForce : 50,
+                randForce : 0.01,
             });
 
             this.planktons.push(plankton);

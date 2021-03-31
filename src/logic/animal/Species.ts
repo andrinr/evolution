@@ -1,17 +1,20 @@
-import { CanvasForm, CanvasSpace, Circle } from "pts";
+import type { CanvasForm, CanvasSpace } from "pts";
+import type { Nutrition } from "../world/Nutrition";
 import { Animal } from "./Animal";
 import { Brain } from "./Brain";
 import { Layer } from "./Layer";
 
 interface SpeciesParams
 {
-    count : number
+    count : number,
+    nutrition : Nutrition,
 }
 
 export class Species
 {
     params : SpeciesParams;
     animals : Animal[];
+
     constructor(params : SpeciesParams)
     {
         this.params = params;
@@ -27,9 +30,11 @@ export class Species
             
             const animal = new Animal({
                 brain : brain,
-                randForce: 0.01,
-                randAngle : 0.1
-            })
+                friction : 0.4,
+                randForce: 0.1,
+                randAngularForce : 30,
+                visionDistance : 0.1
+            });
 
             this.animals.push(animal);
         }

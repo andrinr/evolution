@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import { onMount, onDestroy } from "svelte";
     import { CanvasSpace, CanvasForm } from "pts";
     import { Simulation } from "./logic/world/Simulation";
+import { Drawable } from "./logic/Drawable";
 
     let space: CanvasSpace = null;
     let form: CanvasForm = null;
@@ -11,9 +12,11 @@
         space.setup({ bgcolor: "#123" });
         form = space.getForm();
 
+        Drawable.setSpaceForm(space, form);
+
         const sim = new Simulation({
-            animalCount: 10,
-            foodCount: 200,
+            animalCount: 20,
+            foodCount: 50,
             survivalSteepness: 2,
             evolutionSpeedup: 1,
             timePerEpoch: 40,
@@ -26,6 +29,10 @@
 
         space.play();
     });
+
+    onDestroy(() => {
+        space.stop();
+    })
 </script>
 
 <canvas id="canvas" />

@@ -7,6 +7,7 @@ import type { Brain } from "./Brain";
 interface AnimalParams extends SwimmerParams
 { 
     brain: Brain,
+    visionDistance : number,
 }
 
 export class Animal extends Swimmer
@@ -44,17 +45,16 @@ export class Animal extends Swimmer
 
     }
 
-    draw(space : CanvasSpace, form : CanvasForm){
-        const circle = Circle.fromCenter(this.pos.$multiply(space.size), 10);
+    draw()
+    {
+        const circle = Circle.fromCenter(this.pos.$multiply(Animal.space.size), 10);
 
-        this.visionLeft = new Pt(0,0.1).rotate2D(-0.2 + this.angle);
-        this.visionRight = new Pt(0,0.1).rotate2D(0.2 + this.angle);
+        this.visionLeft = new Pt(0,this.animalParams.visionDistance).rotate2D(-0.4 + this.angle).add(this.pos);
+        this.visionRight = new Pt(0,this.animalParams.visionDistance).rotate2D(0.4 + this.angle).add(this.pos);
         
-        form.fillOnly("#f00").circle(circle);
-        form.stroke("#f00").line(Group.fromArray([this.pos.$multiply(space.size), this.visionLeft.$add(this.pos).multiply(space.size)]));
-        form.stroke("#f00").line(Group.fromArray([this.pos.$multiply(space.size), this.visionRight.$add(this.pos).multiply(space.size)]));
-
-        //console.log(this.pos, this.visionLeft.$add(this.pos)])
+        Animal.form.stroke("#0f0").line(Group.fromArray([this.pos.$multiply(Animal.space.size), this.visionLeft.multiply(Animal.space.size)]));
+        Animal.form.stroke("#00f").line(Group.fromArray([this.pos.$multiply(Animal.space.size), this.visionRight.multiply(Animal.space.size)]));
+        Animal.form.fillOnly("#f00").circle(circle);
     }
 
     breed(amount : number, mutationStregnth : number) : Animal[]

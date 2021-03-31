@@ -1,5 +1,6 @@
 import type { CanvasForm, CanvasSpace } from "pts";
 import { Species } from "../animal/Species";
+import { Drawable } from "../Drawable";
 import { Nutrition } from "./Nutrition";
 
 interface SimulationParams 
@@ -25,28 +26,18 @@ export class Simulation
     constructor(params : SimulationParams)
     {
         this.params = params;
-
-        this.species = new Species({count : params.animalCount});
         this.nutrition = new Nutrition({count : params.foodCount});
+        this.species = new Species({count : params.animalCount, nutrition : this.nutrition});
 
         this.update = this.update.bind(this);
-        this.draw = this.draw.bind(this);
-        this.animationLoop = this.animationLoop.bind(this);
 
         this.simualtionTime = 0;
         this.epoch = 0;
-
-        //this.animationLoop();
-    }
-
-    animationLoop(){
-        this.update();
-        window.requestAnimationFrame(this.animationLoop);
     }
 
     update()
     {
-        this.draw();
+        Drawable.drawAll();
         for (let i = 0; i < this.params.evolutionSpeedup; i++){
             this.simualtionTime += this.params.deltaTime;
 
@@ -65,11 +56,4 @@ export class Simulation
     {
         console.log("New epoch reached");
     }   
-
-
-    draw()
-    {
-        this.species.draw(this.params.space, this.params.form);
-        this.nutrition.draw(this.params.space, this.params.form);
-    }
 }

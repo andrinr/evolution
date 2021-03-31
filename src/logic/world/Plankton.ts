@@ -16,8 +16,8 @@ export class Plankton extends Swimmer
         this.energy = Math.random();
     }
 
-    draw(space : CanvasSpace, form : CanvasForm){
-        const circle = Circle.fromCenter(this.pos.$multiply(space.size), 5);
-        form.fillOnly("#fff").circle(circle);
+    draw(){
+        const circle = Circle.fromCenter(this.pos.$multiply(Plankton.space.size), 5);
+        Plankton.form.fillOnly("#fff").circle(circle);
     }
 }
