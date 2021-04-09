@@ -1,4 +1,4 @@
-import { Circle } from 'pts';
+import { Circle, Group } from 'pts';
 import { Swimmer, SwimmerParams } from '../Swimmer';
 
 interface PlanktonParams extends SwimmerParams
@@ -9,6 +9,7 @@ interface PlanktonParams extends SwimmerParams
 export class Plankton extends Swimmer
 {
     energy: number
+    shape : Group
 
     constructor(params : PlanktonParams)
     {
@@ -17,7 +18,7 @@ export class Plankton extends Swimmer
     }
 
     draw(){
-        const circle = Circle.fromCenter(this.pos, 5);
+        const circle = Circle.fromCenter(this.pos, this.swimmerParams.radius);
         Plankton.form.fillOnly("#fff").circle(circle);
     }
 }

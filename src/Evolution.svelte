@@ -20,7 +20,7 @@ import { Drawable } from "./logic/Drawable";
             animalCount: 20,
             foodCount: 50,
             survivalSteepness: 2,
-            evolutionSpeedup: 1,
+            evolutionSpeedup: 2,
             timePerEpoch: 40,
             deltaTime: 0.01,
             space: space,

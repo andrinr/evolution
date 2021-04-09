@@ -57,7 +57,7 @@ export abstract class Swimmer extends Drawable
 
         this.pos.add(new Pt(0,1).rotate2D(this.angle).multiply(this.force).multiply(dt));
         this.pos.x = Swimmer.mod(this.pos.x, Swimmer.space.size.x);
-        this.pos.y = Swimmer.mod(this.pos.y, Swimmer.space.size.y);
+        this.pos.y = Swimmer.mod(this.pos.y, Swimmer.space.size.x);
     }
 
 

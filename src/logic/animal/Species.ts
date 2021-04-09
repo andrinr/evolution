@@ -32,7 +32,8 @@ export class Species
                 friction : 0.4,
                 randForce: 100,
                 randAngularForce : 30,
-                visionDistance : 50
+                visionDistance : 100,
+                nutrition : this.params.nutrition
             });
 
             this.animals.push(animal);

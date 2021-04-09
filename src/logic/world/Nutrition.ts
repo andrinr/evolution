@@ -20,6 +20,7 @@ export class Nutrition
                 friction : 0.1,
                 randAngularForce : 50,
                 randForce : 10,
+                radius : 10
             });
 
             this.planktons.push(plankton);

@@ -48,11 +48,12 @@ export class Simulation
             this.init();
             this.firstFrame = false;
         }
-        
+
         Drawable.drawAll();
         for (let i = 0; i < this.params.evolutionSpeedup; i++){
             this.simualtionTime += this.params.deltaTime;
 
+            
             Drawable.updateAll(this.params.deltaTime);
 
             if (this.simualtionTime > this.params.timePerEpoch){
