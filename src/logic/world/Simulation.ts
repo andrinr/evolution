@@ -37,23 +37,12 @@ export class Simulation
         this.firstFrame = true;
     }
 
-    init()
-    {
-        Drawable.initAll();
-    }
-
     update()
     {
-        if (this.firstFrame){
-            this.init();
-            this.firstFrame = false;
-        }
-
         Drawable.drawAll();
         for (let i = 0; i < this.params.evolutionSpeedup; i++){
             this.simualtionTime += this.params.deltaTime;
 
-            
             Drawable.updateAll(this.params.deltaTime);
 
             if (this.simualtionTime > this.params.timePerEpoch){
@@ -66,6 +55,6 @@ export class Simulation
 
     evolve()
     {
-        console.log("New epoch reached");
+        this.species.evolve();
     }   
 }

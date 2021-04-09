@@ -2,13 +2,19 @@ import type { CanvasForm, CanvasSpace } from "pts";
 
 export class Drawable
 {
-    static instances : Drawable[] = [];
+    static instances : Map<number, Drawable> = new Map<number, Drawable>();
+    static count : number = 0;
     static space : CanvasSpace;
     static form : CanvasForm;
 
+    id : number;
+    firstFrame : boolean;
+
     constructor()
     {
-        Drawable.instances.push(this);
+        this.id = Drawable.count++;
+        Drawable.instances.set(this.id, this);
+        this.firstFrame = true;
     }
 
     static setSpaceForm(space : CanvasSpace, form : CanvasForm)
@@ -19,22 +25,26 @@ export class Drawable
 
     static initAll()
     {
-        for (const instance of Drawable.instances){
-            instance.init();
+        for (const [key, value] of Drawable.instances){
+            value.init();
         }
     }
 
     static drawAll()
     {
-        for (const instance of Drawable.instances){
-            instance.draw();
+        for (const [key, value] of Drawable.instances){
+            value.draw();
         }
     }
 
     static updateAll(dt : number)
     {
-        for (const instance of Drawable.instances){
-            instance.update(dt);
+        for (const [key, value] of Drawable.instances){
+            if (value.firstFrame){
+                value.init();
+                value.firstFrame = false;
+            }
+            value.update(dt);
         }
     }
     
@@ -51,5 +61,10 @@ export class Drawable
     init()
     {
 
+    }
+
+    kill()
+    {
+        Drawable.instances.delete(this.id);
     }
 }

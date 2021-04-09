@@ -13,7 +13,7 @@ interface AnimalParams extends SwimmerParams {
 
 export class Animal extends Swimmer {
     animalParams: AnimalParams;
-    energy: number;
+    score: number;
     angle: number;
     visionLeft: Pt;
     visionRight: Pt;
@@ -22,7 +22,7 @@ export class Animal extends Swimmer {
     {
         super(params as SwimmerParams);
         this.animalParams = params;
-        this.energy = 0.5;
+        this.score = 0.;
 
         this.visionLeft = new Pt(0, 0.1).rotate2D(-0.2);
         this.visionRight = new Pt(0, 0.1).rotate2D(0.2);
@@ -36,6 +36,7 @@ export class Animal extends Swimmer {
     update(dt: number) 
     {
         this.updatePosition(dt);
+        this.look();
         this.visionLeft = new Pt(0, this.animalParams.visionDistance).rotate2D(-0.4 + this.angle).add(this.pos);
         this.visionRight = new Pt(0, this.animalParams.visionDistance).rotate2D(0.4 + this.angle).add(this.pos);
     }
@@ -43,6 +44,10 @@ export class Animal extends Swimmer {
     look() 
     {
         for (const plankton of this.animalParams.nutrition.planktons) {
+
+            if (Line.magnitude([this.pos, plankton.pos]) < 10){
+                this.score += 0.1;
+            }
             const inLineLeft = Circle.intersectLine2D(Circle.fromCenter(plankton.pos, plankton.swimmerParams.radius), [this.pos, this.visionLeft]);
             const inLineRight = Circle.intersectLine2D(Circle.fromCenter(plankton.pos, plankton.swimmerParams.radius), [this.pos, this.visionRight]);
     
@@ -56,7 +61,6 @@ export class Animal extends Swimmer {
                     return da - db;
                 })
                 dl = 1- Line.magnitude([inLineLeft[0], this.pos]) / this.animalParams.visionDistance;
-                console.log(dl);
             }
 
             if (inLineRight.length > 0) {
@@ -66,12 +70,12 @@ export class Animal extends Swimmer {
                     return da - db;
                 })
                 dr = 1- Line.magnitude([inLineLeft[0], this.pos]) / this.animalParams.visionDistance;
-                console.log(dr);
             }
-        
+            //console.log([dl,dr]);
             const output : math.matrix = this.animalParams.brain.process([dl, dr]);
-            this.angularVelocity += output[0] - 0.5;
-            this.force += output[1];
+            //console.log(output);
+            this.angularVelocity += 0.1* (output[0] - output[1]);
+            this.force += 0.01;
         }
     }
 
@@ -83,14 +87,16 @@ export class Animal extends Swimmer {
         Animal.form.stroke("#0f0").line(Group.fromArray([this.pos, this.visionRight]));
         Animal.form.fillOnly("#fff").circle(circle);
 
-        this.look();
+
     }
 
     breed(amount: number, mutationStregnth: number): Animal[] 
     {
         const children = [];
         for (let i = 0; i < amount; i++) {
-            children.push(this.animalParams.brain.clone().mutate(mutationStregnth));
+            const params = Object.assign({},this.animalParams);
+            params.brain = this.animalParams.brain.clone().mutate(mutationStregnth);
+            children.push(new Animal(params));
         }
         return children;
     }

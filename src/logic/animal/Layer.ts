@@ -57,8 +57,13 @@ export class Layer
         return new Layer({weights: math.multiply(math.add(this.weights, partner.weights), 0.5)});
     }
 
-    private logisticFunction : activationFunction = (x: number) =>
+    public static logisticFunction : activationFunction = (x: number) =>
     {
         return 1 / ( 1 + Math.exp(-x));
+    }
+
+    public static relu : activationFunction = (x: number) =>
+    {
+        return Math.max(0, x);
     }
 }
