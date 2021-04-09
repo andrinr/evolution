@@ -14,7 +14,7 @@ export interface SwimmerParams
 
 export abstract class Swimmer extends Drawable
 {
-    protected swimmerParams : SwimmerParams;
+    public swimmerParams : SwimmerParams;
     public pos : Pt;
     public force : number;
     public angle : number;

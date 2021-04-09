@@ -32,14 +32,8 @@ export class Layer
 
     public process(input : math.matrix<number>) : math.matrix<number>
     {
-        //const multiplication : math.matrix<number> = math.multiply(this.weights, input);
-        /*return math.map(function(value, index, matrix){
-            return this.
-        })*/
-
-        // deepcode ignore UseArrowFunction: Already uses an arrow function
         return math.multiply(this.weights, input).map(
-            (value) => {return this.activationFunction(value)}
+            (value : number) => {return this.activationFunction(value)}
         );
     }
 

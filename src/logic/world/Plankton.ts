@@ -19,6 +19,6 @@ export class Plankton extends Swimmer
 
     draw(){
         const circle = Circle.fromCenter(this.pos, this.swimmerParams.radius);
-        Plankton.form.fillOnly("#fff").circle(circle);
+        Plankton.form.fillOnly("#888").circle(circle);
     }
 }

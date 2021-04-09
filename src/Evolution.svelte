@@ -17,8 +17,8 @@ import { Drawable } from "./logic/Drawable";
         console.log(space, form);
 
         const sim = new Simulation({
-            animalCount: 20,
-            foodCount: 50,
+            animalCount: 10,
+            foodCount: 20,
             survivalSteepness: 2,
             evolutionSpeedup: 2,
             timePerEpoch: 40,

@@ -21,18 +21,18 @@ export class Species
         for (let i = 0; i < this.params.count; i++){
             const brain = new Brain({
                 layers: [
-                    new Layer({ breadth: 5 }),
-                    new Layer({ breadth: 5 }),
-                    new Layer({ breadth: 3 }),
+                    new Layer({ breadth: 2 }),
+                    new Layer({ breadth: 2 }),
+                    new Layer({ breadth: 2 }),
                 ],
             });
             
             const animal = new Animal({
                 brain : brain,
                 friction : 0.4,
-                randForce: 100,
-                randAngularForce : 30,
-                visionDistance : 100,
+                randForce: 0,
+                randAngularForce : 0,
+                visionDistance : 150,
                 nutrition : this.params.nutrition
             });
 
