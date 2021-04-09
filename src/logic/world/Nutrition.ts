@@ -19,27 +19,10 @@ export class Nutrition
             const plankton = new Plankton({
                 friction : 0.1,
                 randAngularForce : 50,
-                randForce : 0.01,
+                randForce : 10,
             });
 
             this.planktons.push(plankton);
-        }
-
-        this.update = this.update.bind(this);
-        this.draw = this.draw.bind(this);
-    }
-
-    update(deltaTime : number)
-    {
-        for (const plankton of this.planktons){
-            plankton.update(deltaTime);
-        }
-    }
-
-    draw(space : CanvasSpace, form : CanvasForm)
-    {
-        for (const plankton of this.planktons){
-            plankton.draw(space, form);
         }
     }
 }

@@ -47,13 +47,13 @@ export class Animal extends Swimmer
 
     draw()
     {
-        const circle = Circle.fromCenter(this.pos.$multiply(Animal.space.size), 10);
+        const circle = Circle.fromCenter(this.pos, 10);
 
         this.visionLeft = new Pt(0,this.animalParams.visionDistance).rotate2D(-0.4 + this.angle).add(this.pos);
         this.visionRight = new Pt(0,this.animalParams.visionDistance).rotate2D(0.4 + this.angle).add(this.pos);
         
-        Animal.form.stroke("#0f0").line(Group.fromArray([this.pos.$multiply(Animal.space.size), this.visionLeft.multiply(Animal.space.size)]));
-        Animal.form.stroke("#00f").line(Group.fromArray([this.pos.$multiply(Animal.space.size), this.visionRight.multiply(Animal.space.size)]));
+        Animal.form.stroke("#0f0").line(Group.fromArray([this.pos, this.visionLeft]));
+        Animal.form.stroke("#00f").line(Group.fromArray([this.pos, this.visionRight]));
         Animal.form.fillOnly("#f00").circle(circle);
     }
 

@@ -33,13 +33,18 @@ export abstract class Swimmer extends Drawable
     {
         super();
         this.swimmerParams = Object.assign({}, Swimmer.defaultParams, params);
+    }
 
-        this.pos = new Pt(math.random(), math.random());
+    static mod(x, n) {
+        return ((x%n)+n)%n;
+    };
+
+    init()
+    {
+        this.pos = new Pt(math.random() * Swimmer.space.size.x, math.random() * Swimmer.space.size.y);
         this.force = 0;
         this.angularVelocity = 0;
         this.angle = Math.PI * 2 * Math.random();
-
-        this.updatePosition = this.updatePosition.bind(this);
     }
     
     protected updatePosition(dt : number)
@@ -51,8 +56,8 @@ export abstract class Swimmer extends Drawable
         this.angle += dt * this.angularVelocity;
 
         this.pos.add(new Pt(0,1).rotate2D(this.angle).multiply(this.force).multiply(dt));
-        this.pos.x = this.pos.x % 1;
-        this.pos.y = this.pos.y % 1;
+        this.pos.x = Swimmer.mod(this.pos.x, Swimmer.space.size.x);
+        this.pos.y = Swimmer.mod(this.pos.y, Swimmer.space.size.y);
     }
 
 

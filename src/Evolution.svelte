@@ -14,6 +14,8 @@ import { Drawable } from "./logic/Drawable";
 
         Drawable.setSpaceForm(space, form);
 
+        console.log(space, form);
+
         const sim = new Simulation({
             animalCount: 20,
             foodCount: 50,

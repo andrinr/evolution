@@ -1,4 +1,4 @@
-import { CanvasForm, CanvasSpace, Circle } from 'pts';
+import { Circle } from 'pts';
 import { Swimmer, SwimmerParams } from '../Swimmer';
 
 interface PlanktonParams extends SwimmerParams
@@ -17,7 +17,7 @@ export class Plankton extends Swimmer
     }
 
     draw(){
-        const circle = Circle.fromCenter(this.pos.$multiply(Plankton.space.size), 5);
+        const circle = Circle.fromCenter(this.pos, 5);
         Plankton.form.fillOnly("#fff").circle(circle);
     }
 }

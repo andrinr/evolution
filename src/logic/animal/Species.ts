@@ -1,4 +1,3 @@
-import type { CanvasForm, CanvasSpace } from "pts";
 import type { Nutrition } from "../world/Nutrition";
 import { Animal } from "./Animal";
 import { Brain } from "./Brain";
@@ -31,29 +30,12 @@ export class Species
             const animal = new Animal({
                 brain : brain,
                 friction : 0.4,
-                randForce: 0.1,
+                randForce: 100,
                 randAngularForce : 30,
-                visionDistance : 0.1
+                visionDistance : 50
             });
 
             this.animals.push(animal);
-        }
-
-        this.update = this.update.bind(this);
-        this.draw = this.draw.bind(this);
-    }
-
-    update(deltaTime : number)
-    {
-        for (const animal of this.animals){
-            animal.update(deltaTime);
-        }
-    }
-
-    draw(space : CanvasSpace, form : CanvasForm)
-    {
-        for (const animal of this.animals){
-            animal.draw(space, form);
         }
     }
 }
